@@ -3,131 +3,180 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Noob Şehri</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Kare Dünya - Obby</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#17202a;color:white;font-family:Arial;text-align:center}
-header{background:#111827;padding:12px}
-h1{margin:4px;color:#ffe66d}
-#stats{display:flex;justify-content:space-around;gap:5px;flex-wrap:wrap;margin:10px}
-#game{position:relative;width:100%;height:55vh;min-height:320px;max-height:520px;overflow:hidden;background:#70bd61}
-#road{position:absolute;left:22%;width:56%;height:100%;background:#454b53;border-left:5px solid #eee;border-right:5px solid #eee}
-.line{position:absolute;left:49%;width:3px;height:45px;background:#fff}
-.building{position:absolute;width:15%;height:90px;background:#d8894a;border:3px solid #8b5a36}
-.b2{background:#8d9fc3}.b3{background:#c4b17a}
-#car{position:absolute;left:43%;bottom:45px;width:14%;min-width:42px;height:65px;background:#ffcf33;border:4px solid #fff;border-radius:12px;z-index:3;transition:left .08s}
-#car:before,#car:after{content:"";position:absolute;background:#222;width:8px;height:15px;top:10px}
-#car:before{left:-7px}#car:after{right:-7px}
-#car span{display:block;background:#8ee8ff;height:18px;margin:8px 3px;border-radius:4px}
-#message{padding:8px;color:#ffe66d;font-weight:bold}
-button{border:0;border-radius:12px;padding:13px 15px;font-size:16px;font-weight:bold;background:#ffe66d;color:#17202a;margin:4px;touch-action:manipulation}
-.controls{display:flex;justify-content:center;flex-wrap:wrap}
-.panel{padding:10px;background:#253244;margin:10px;border-radius:14px}
-input{padding:10px;width:65%;border-radius:8px;border:0}
+body{margin:0;background:#111827;color:white;font-family:Arial;text-align:center}
+header{padding:12px;background:#202d42}
+h1{margin:5px;color:#7cf7ff}
+button,input{font-size:15px;border:0;border-radius:10px;padding:11px;margin:3px}
+button{background:#ffe66d;font-weight:bold;color:#202030}
+button:active{transform:scale(.96)}
+.stats{display:flex;justify-content:space-around;flex-wrap:wrap;padding:8px;gap:5px}
+#world{height:48vh;min-height:300px;max-height:480px;position:relative;overflow:hidden;background:linear-gradient(#6cc8ff 0%,#c4f4ff 70%,#79c95b 70%)}
+.cloud{position:absolute;font-size:35px}
+#platforms{position:absolute;inset:0}
+.platform{position:absolute;height:17px;background:#28a66a;border:3px solid #146b45;border-radius:4px}
+#lava{position:absolute;left:0;bottom:0;width:100%;height:9%;background:#ff493f}
+#player{position:absolute;left:9%;bottom:10%;width:35px;height:48px;z-index:5;transition:left .12s,bottom .12s}
+.head{height:20px;width:25px;background:#ffcc91;margin:auto;border:2px solid #7d4e31;border-radius:4px}
+.body{height:19px;width:32px;background:#2585ff;margin:auto;border:2px solid #1554a0}
+.legs{display:flex;justify-content:center;height:10px}
+.legs i{width:12px;background:#25375e;border:1px solid #111;margin:0 2px}
+#checkpoint{position:absolute;bottom:10%;left:78%;font-size:30px}
+#notice{min-height:28px;padding:7px;color:#ffe66d;font-weight:bold}
+.panel{background:#202d42;border-radius:14px;margin:9px;padding:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+input{width:65%;max-width:220px}
+small{color:#cbd5e1}
 </style>
 </head>
 <body>
 <header>
-<h1>🏙️ NOOB ŞEHRİ 🚗</h1>
-<div>Şehrin kralı olmaya hazır mısın?</div>
+<h1>🟦 KARE DÜNYA</h1>
+<div>Obby • Avatar • Arkadaşlar</div>
 </header>
-<div id="stats">
-<div>💰 Para: <b id="money">0</b>₺</div>
-<div>🚘 Araba: <b id="carname">Noob Arabası</b></div>
-<div>⭐ Seviye: <b id="level">1</b></div>
+
+<div class="stats">
+<div>🪙 Coin: <b id="coins">0</b></div>
+<div>🏁 Bölüm: <b id="stage">1</b></div>
+<div>👤 <b id="skinname">Mavi Noob</b></div>
 </div>
 
-<div id="game">
-<div id="road"></div>
-<div class="building" style="left:3%;top:8%"></div>
-<div class="building b2" style="left:3%;top:42%;height:105px"></div>
-<div class="building b3" style="right:3%;top:15%;height:110px"></div>
-<div class="building b2" style="right:3%;top:58%;height:95px"></div>
-<div class="line" style="top:0"></div>
-<div class="line" style="top:25%"></div>
-<div class="line" style="top:50%"></div>
-<div class="line" style="top:75%"></div>
-<div id="car"><span></span></div>
+<div id="world">
+<div class="cloud" style="left:15%;top:8%">☁️</div>
+<div class="cloud" style="left:68%;top:15%">☁️</div>
+<div id="platforms">
+<div class="platform" style="left:0;bottom:10%;width:24%"></div>
+<div class="platform" style="left:31%;bottom:24%;width:17%"></div>
+<div class="platform" style="left:55%;bottom:39%;width:17%"></div>
+<div class="platform" style="left:78%;bottom:10%;width:22%"></div>
+<div id="lava"></div>
+<div id="checkpoint">🏁</div>
 </div>
-<div id="message">Noob Şehri'ne hoş geldin!</div>
+<div id="player">
+<div class="head"></div><div class="body"></div>
+<div class="legs"><i></i><i></i></div>
+</div>
+</div>
 
-<div class="controls">
+<div id="notice">Obby'ye hoş geldin! Platformlara zıpla!</div>
+
+<div class="panel">
+<h3>🎮 Karakter Kontrolleri</h3>
+<div class="grid">
 <button onclick="move(-1)">⬅️ SOL</button>
-<button onclick="earn()">💰 PARA KAZAN</button>
 <button onclick="move(1)">SAĞ ➡️</button>
+<button onclick="jump()">⬆️ ZIPLA</button>
+<button onclick="reset()">🔄 BAŞTAN</button>
 </div>
-<div class="controls">
-<button onclick="drive()">🚗 SÜR</button>
-<button onclick="horn()">📢 KORNA</button>
-<button onclick="buy()">🏎️ ARABA AL (100₺)</button>
+<p><small>Bu, telefonda dokunarak oynanan basit bir obby prototipidir.</small></p>
 </div>
 
 <div class="panel">
-<h3>👥 Arkadaş Odası (Demo)</h3>
-<input id="room" placeholder="Oda adı yaz">
-<button onclick="joinRoom()">Odaya Gir</button>
-<div id="roommsg">Henüz bir oda seçilmedi.</div>
-<small>Bu sürümde oda ekranı demo; arkadaşlarla gerçek zamanlı oyun için sunucu gerekir.</small>
+<h3>👕 Avatar Mağazası</h3>
+<p>Görünüşünü değiştir, coin harca!</p>
+<button onclick="buySkin('Mavi Noob','#2585ff',0)">🔵 Mavi - Ücretsiz</button>
+<button onclick="buySkin('Kırmızı Noob','#ff4545',25)">🔴 Kırmızı - 25🪙</button>
+<button onclick="buySkin('Mor Noob','#b45cff',50)">🟣 Mor - 50🪙</button>
+</div>
+
+<div class="panel">
+<h3>🪙 Oyun Parası</h3>
+<p>Parkuru tamamlayarak coin kazan!</p>
+<button onclick="collect()">Coin Ödülü Al (+10)</button>
+<p><small>Bu coinler yalnızca bu prototipin oyun içi parasıdır; Robux değildir.</small></p>
+</div>
+
+<div class="panel">
+<h3>👥 Arkadaş Sistemi</h3>
+<input id="friendName" maxlength="20" placeholder="Arkadaş adı">
+<button onclick="addFriend()">Arkadaş Ekle</button>
+<div id="friends">Henüz arkadaş eklenmedi.</div>
+<p><small>Arkadaş listesi bu tarayıcıda demo olarak çalışır. Diğer oyuncularla gerçek bağlantı sağlamaz.</small></p>
+</div>
+
+<div class="panel">
+<h3>💎 Robux Hakkında</h3>
+<p>Bu oyunda gerçek Robux yoktur. Kendi oyun paran ve mağazan bulunur.</p>
 </div>
 
 <script>
-let money=0,level=1,x=43,speed=0,carIndex=0;
-const cars=[
-{name:"Noob Arabası",color:"#ffcf33",price:0},
-{name:"Mavi Yarışçı",color:"#28a9ff",price:100},
-{name:"Süper Araba",color:"#ff3b55",price:250},
-{name:"Galaksi Arabası",color:"#bd65ff",price:500}
-];
-const car=document.getElementById("car");
-function update(){
- document.getElementById("money").textContent=money;
- document.getElementById("level").textContent=level;
- document.getElementById("carname").textContent=cars[carIndex].name;
- car.style.left=x+"%";
- car.style.background=cars[carIndex].color;
+let x=9,stage=1,coins=0,jumping=false,gotReward=false;
+let friends=[];
+const player=document.getElementById('player');
+
+function say(t){document.getElementById('notice').textContent=t}
+function draw(){
+ player.style.left=x+'%';
+ document.getElementById('coins').textContent=coins;
+ document.getElementById('stage').textContent=stage;
 }
 function move(d){
- x=Math.max(24,Math.min(62,x+d*5));
- update();
- document.getElementById("message").textContent=d<0?"Sola döndün!":"Sağa döndün!";
+ x=Math.max(0,Math.min(90,x+d*6));
+ draw();
+ if(x>27&&x<48){say('Platforma geldin! Şimdi zıpla!')}
+ else if(x>=48&&x<76){say('Güzel gidiyorsun! Bir kez daha zıpla!')}
+ else if(x>=76){finish()}
+ else{say('İleri git ve engelleri aş!')}
 }
-function earn(){
- money+=10;
- level=Math.floor(money/100)+1;
- update();
- document.getElementById("message").textContent="+10₺ kazandın!";
+function jump(){
+ if(jumping)return;
+ jumping=true;
+ player.style.bottom='32%';
+ say('Zıplıyorsun! 🚀');
+ setTimeout(()=>{
+  player.style.bottom='10%';
+  jumping=false;
+  if(x>=27&&x<48||x>=48&&x<76){
+   say('İyi zıpladın! Bir sonraki platforma ilerle.');
+  }else if(x<27){
+   say('Bir platforma ulaşmak için daha ileri git.');
+  }else if(x>=76){finish()}
+ },650);
 }
-function drive(){
- speed++;
- earn();
- document.getElementById("message").textContent="🚗 Vııın! Şehirde tur attın! +10₺";
+function finish(){
+ if(!gotReward){
+  gotReward=true;
+  coins+=20;
+  stage++;
+  draw();
+  say('🏆 OBBy TAMAMLANDI! +20 coin kazandın!');
+  x=9;
+  setTimeout(draw,1000);
+ }else say('Harikasın! Yeni tur için devam et.');
 }
-function horn(){
- document.getElementById("message").textContent="📢 BİİİİP! Noob geliyor!";
+function reset(){
+ x=9;gotReward=false;draw();say('Yeni tur başladı! 🏁');
 }
-function buy(){
- let next=carIndex+1;
- if(next>=cars.length){
-  document.getElementById("message").textContent="Bütün arabalar sende! 🏆";
+function collect(){
+ coins+=10;draw();say('+10 oyun coini kazandın! 🪙');
+}
+function buySkin(name,color,price){
+ if(name===document.getElementById('skinname').textContent){
+  say('Bu görünüş zaten seçili!');
   return;
  }
- if(money<cars[next].price){
-  document.getElementById("message").textContent="Yeterli para yok! Para kazan.";
-  return;
+ if(coins<price){say('Yeterli coin yok! Obby oyna veya ödül al.');return}
+ coins-=price;
+ document.querySelector('.body').style.background=color;
+ document.getElementById('skinname').textContent=name;
+ draw();say(name+' görünüşü seçildi!');
+}
+function addFriend(){
+ const input=document.getElementById('friendName');
+ const name=input.value.trim();
+ if(!name){say('Önce arkadaş adı yaz!');return}
+ if(friends.some(n=>n.toLowerCase()===name.toLowerCase())){
+  say('Bu isim listende var!');return
  }
- money-=cars[next].price;
- carIndex=next;
- update();
- document.getElementById("message").textContent="Yeni araban hayırlı olsun! 🏎️";
+ friends.push(name);
+ document.getElementById('friends').textContent='👤 '+friends.join(' • ');
+ input.value='';
+ say(name+' demo arkadaş listene eklendi!');
 }
-function joinRoom(){
- let name=document.getElementById("room").value.trim();
- document.getElementById("roommsg").textContent=name?
- "🏙️ '"+name+"' odası seçildi! (Şimdilik demo)":
- "Önce bir oda adı yaz!";
-}
-update();
+draw();
 </script>
 </body>
 </html>
