@@ -1,0 +1,2 @@
+# Noob-ehri
+Noob şehridir
